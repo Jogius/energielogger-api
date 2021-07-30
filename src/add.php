@@ -4,7 +4,7 @@ require "./vendor/autoload.php";
 use Dotenv\Dotenv;
 require "./utils/DatabaseConnector.php";
 
-// // Set response headers
+// Set response headers
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
@@ -18,8 +18,19 @@ $dbConnection = (new DatabaseConnector())->getConnection();
 $data = json_decode(file_get_contents("php://input"));
 
 if (
-  empty($data->flowtemp) ||
-  empty($data->refluxtemp) ||
+  empty($data->token) ||
+  strcmp($data->token, getenv("TOKEN")) != 0
+)
+{
+  http_response_code(401);
+  echo json_encode(array("message" => "Invalid token."));
+  return;
+}
+
+if (
+  empty($data->bezug) ||
+  empty($data->einspeisung) ||
+  empty($data->ertrag) ||
   empty($data->timestamp)
 )
 {
@@ -30,11 +41,12 @@ if (
 
 try
 {
-  $query = "INSERT INTO data(flowtemp, refluxtemp, timestamp) VALUES(:flowtemp, :refluxtemp, :timestamp);";
+  $query = "INSERT INTO data(bezug, einspeisung, ertrag, timestamp) VALUES(:bezug, :einspeisung, :ertrag, :timestamp);";
 
   $statement = $dbConnection->prepare($query);
-  $statement->bindParam(":flowtemp", $data->flowtemp);
-  $statement->bindParam(":refluxtemp", $data->refluxtemp);
+  $statement->bindParam(":bezug", $data->bezug);
+  $statement->bindParam(":einspeisung", $data->einspeisung);
+  $statement->bindParam(":ertrag", $data->ertrag);
   $statement->bindParam(":timestamp", $data->timestamp);
 
   $success = $statement->execute();

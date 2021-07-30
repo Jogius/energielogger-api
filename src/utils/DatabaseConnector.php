@@ -9,7 +9,7 @@ class DatabaseConnector
   {
     $host = getenv("DB_HOST");
     $port = getenv("DB_PORT");
-    $db   = getenv("DB_DATABASE");
+    $db = getenv("DB_DATABASE");
     $username = getenv("DB_USERNAME");
     $password = getenv("DB_PASSWORD");
 
@@ -24,11 +24,11 @@ class DatabaseConnector
 
       $statement = "
         CREATE TABLE IF NOT EXISTS data (
-          id INT NOT NULL AUTO_INCREMENT,
-          flowtemp DOUBLE(4, 2) NOT NULL,
-          refluxtemp DOUBLE(4, 2) NOT NULL,
-          timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-          PRIMARY KEY (id)
+          bezug DOUBLE NOT NULL,
+          einspeisung DOUBLE NOT NULL,
+          ertrag DOUBLE NOT NULL,
+          timestamp bigint(20) NOT NULL,
+          PRIMARY KEY (timestamp)
         ) ENGINE=INNODB;
       ";
 
