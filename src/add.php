@@ -47,7 +47,7 @@ try
   $statement->bindParam(":bezug", $data->bezug);
   $statement->bindParam(":einspeisung", $data->einspeisung);
   $statement->bindParam(":ertrag", $data->ertrag);
-  $statement->bindParam(":timestamp", $data->timestamp);
+  $statement->bindParam(":timestamp", date("Y-m-d H:i:s", $data->timestamp / 1000));
 
   $success = $statement->execute();
   
