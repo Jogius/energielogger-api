@@ -1,4 +1,5 @@
 <?php
+
 use Dotenv\Dotenv;
 
 class DatabaseConnector
@@ -13,12 +14,11 @@ class DatabaseConnector
     $username = getenv("DB_USERNAME");
     $password = getenv("DB_PASSWORD");
 
-    try
-    {
+    try {
       $this->dbConnection = new PDO(
         "mysql:host=$host;port=$port;charset=utf8mb4;dbname=$db",
-          $username,
-          $password
+        $username,
+        $password
       );
       $this->dbConnection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
@@ -33,9 +33,7 @@ class DatabaseConnector
       ";
 
       $this->dbConnection->exec($statement);
-    }
-    catch (PDOException $e)
-    {
+    } catch (PDOException $e) {
       exit($e->getMessage());
     }
   }
