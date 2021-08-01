@@ -18,7 +18,7 @@ $dbConnection = (new DatabaseConnector())->getConnection();
 $data = json_decode(file_get_contents("php://input"));
 
 if (
-  empty($data->token) ||
+  !isset($data->token) ||
   strcmp($data->token, getenv("TOKEN")) != 0
 ) {
   http_response_code(401);
@@ -27,12 +27,12 @@ if (
 }
 
 if (
-  empty($data->bezug) ||
-  empty($data->einspeisung) ||
-  empty($data->ertrag) ||
-  empty($data->soc) ||
-  empty($data->verbrauch) ||
-  empty($data->timestamp)
+  !isset($data->bezug) ||
+  !isset($data->einspeisung) ||
+  !isset($data->ertrag) ||
+  !isset($data->soc) ||
+  !isset($data->verbrauch) ||
+  !isset($data->timestamp)
 ) {
   http_response_code(400);
   echo json_encode(array("message" => "Invalid request data."));

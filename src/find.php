@@ -19,8 +19,8 @@ $dbConnection = (new DatabaseConnector())->getConnection();
 $params = array();
 parse_str($_SERVER["QUERY_STRING"], $params);
 if (
-  !empty($params["from"]) &&
-  !empty($params["to"])
+  isset($params["from"]) &&
+  isset($params["to"])
 ) {
   $range = TRUE;
   $from = $params["from"];
