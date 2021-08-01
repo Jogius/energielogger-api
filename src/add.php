@@ -30,6 +30,8 @@ if (
   empty($data->bezug) ||
   empty($data->einspeisung) ||
   empty($data->ertrag) ||
+  empty($data->soc) ||
+  empty($data->verbrauch) ||
   empty($data->timestamp)
 ) {
   http_response_code(400);
@@ -38,12 +40,14 @@ if (
 }
 
 try {
-  $query = "INSERT INTO data(bezug, einspeisung, ertrag, timestamp) VALUES(:bezug, :einspeisung, :ertrag, :timestamp);";
+  $query = "INSERT INTO data(bezug, einspeisung, ertrag, soc, verbrauch, timestamp) VALUES(:bezug, :einspeisung, :ertrag, :soc, :verbrauch, :timestamp);";
 
   $statement = $dbConnection->prepare($query);
   $statement->bindParam(":bezug", $data->bezug);
   $statement->bindParam(":einspeisung", $data->einspeisung);
   $statement->bindParam(":ertrag", $data->ertrag);
+  $statement->bindParam(":soc", $data->soc);
+  $statement->bindParam(":verbrauch", $data->verbrauch);
   $statement->bindParam(":timestamp", date("Y-m-d H:i:s", $data->timestamp / 1000));
 
   $success = $statement->execute();

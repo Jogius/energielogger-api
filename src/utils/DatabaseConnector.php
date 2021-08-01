@@ -27,6 +27,8 @@ class DatabaseConnector
           bezug DOUBLE NOT NULL,
           einspeisung DOUBLE NOT NULL,
           ertrag DOUBLE NOT NULL,
+          soc FLOAT NOT NULL,
+          verbrauch FLOAT NOT NULL,
           timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
           PRIMARY KEY (timestamp)
         ) ENGINE=INNODB;
